@@ -1,10 +1,9 @@
-
 use rand::seq::SliceRandom;
 trait Types<T> {
     fn get_types() -> Vec<T>;
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CardType {
     Ace,
     King,
@@ -41,7 +40,7 @@ impl Types<CardType> for CardType {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CardColor {
     Red,
     Black,
@@ -53,7 +52,7 @@ impl Types<CardColor> for CardColor {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CardSymbol {
     Spade,
     Heart,
@@ -72,8 +71,23 @@ impl Types<CardSymbol> for CardSymbol {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Card(u8, CardColor, CardType, CardSymbol);
+
+impl Card {
+    pub fn get_value(&self) -> &u8 {
+        &self.0
+    }
+    pub fn get_color(&self) -> &CardColor {
+        &self.1
+    }
+    pub fn get_type(&self) -> &CardType {
+        &self.2
+    }
+    pub fn get_symbol(&self) -> &CardSymbol {
+        &self.3
+    }
+}
 
 fn shuffle<T>(vec: &mut Vec<T>) {
     let mut rng = rand::thread_rng();
