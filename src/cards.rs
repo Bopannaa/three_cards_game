@@ -106,13 +106,13 @@ fn get_deck_of_cards() -> Vec<Card> {
     let cardcolors = CardColor::get_types();
     let cardyymbols = CardSymbol::get_types();
 
-    let mut counter = 1;
+    let mut counter = 14;
     for cardtype in cardtypes.iter() {
-        deck.push(Card(counter, cardcolors[0], *cardtype, cardyymbols[0]));
+        deck.push(Card(counter, cardcolors[1], *cardtype, cardyymbols[0]));
         deck.push(Card(counter, cardcolors[0], *cardtype, cardyymbols[1]));
-        deck.push(Card(counter, cardcolors[1], *cardtype, cardyymbols[2]));
+        deck.push(Card(counter, cardcolors[0], *cardtype, cardyymbols[2]));
         deck.push(Card(counter, cardcolors[1], *cardtype, cardyymbols[3]));
-        counter += 1;
+        counter -= 1;
     }
 
     return deck;
