@@ -40,17 +40,6 @@ impl Types<CardType> for CardType {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub enum CardColor {
-    Red,
-    Black,
-}
-
-impl Types<CardColor> for CardColor {
-    fn get_types() -> Vec<CardColor> {
-        vec![CardColor::Red, CardColor::Black]
-    }
-}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CardSymbol {
@@ -72,20 +61,17 @@ impl Types<CardSymbol> for CardSymbol {
 }
 
 #[derive(Debug, Clone)]
-pub struct Card(u8, CardColor, CardType, CardSymbol);
+pub struct Card(u8, CardType, CardSymbol);
 
 impl Card {
     pub fn get_value(&self) -> &u8 {
         &self.0
     }
-    pub fn get_color(&self) -> &CardColor {
+    pub fn get_type(&self) -> &CardType {
         &self.1
     }
-    pub fn get_type(&self) -> &CardType {
-        &self.2
-    }
     pub fn get_symbol(&self) -> &CardSymbol {
-        &self.3
+        &self.2
     }
 }
 
@@ -103,15 +89,14 @@ pub fn get_shuffeled_deck() -> Vec<Card> {
 fn get_deck_of_cards() -> Vec<Card> {
     let mut deck: Vec<Card> = vec![];
     let cardtypes = CardType::get_types();
-    let cardcolors = CardColor::get_types();
     let cardyymbols = CardSymbol::get_types();
 
     let mut counter = 14;
     for cardtype in cardtypes.iter() {
-        deck.push(Card(counter, cardcolors[1], *cardtype, cardyymbols[0]));
-        deck.push(Card(counter, cardcolors[0], *cardtype, cardyymbols[1]));
-        deck.push(Card(counter, cardcolors[0], *cardtype, cardyymbols[2]));
-        deck.push(Card(counter, cardcolors[1], *cardtype, cardyymbols[3]));
+        deck.push(Card(counter, *cardtype, cardyymbols[0]));
+        deck.push(Card(counter, *cardtype, cardyymbols[1]));
+        deck.push(Card(counter, *cardtype, cardyymbols[2]));
+        deck.push(Card(counter, *cardtype, cardyymbols[3]));
         counter -= 1;
     }
 

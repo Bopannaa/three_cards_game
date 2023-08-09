@@ -1,4 +1,4 @@
-use crate::cards::{Card, CardColor, CardSymbol, CardType};
+use crate::cards::{Card, CardSymbol, CardType};
 
 #[derive(Debug)]
 pub struct Player(usize, Vec<Card>);
@@ -12,18 +12,14 @@ impl Player {
         &self.1
     }
 
+    pub fn get_id(&self) -> &usize {
+        &self.0
+    }
+
     pub fn get_values(&self) -> Vec<u8> {
         let mut list = vec![];
         for i in &self.1 {
             list.push(*i.get_value());
-        }
-        list
-    }
-
-    pub fn get_colors(&self) -> Vec<CardColor> {
-        let mut list = vec![];
-        for i in &self.1 {
-            list.push(*i.get_color());
         }
         list
     }
