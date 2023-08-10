@@ -29,7 +29,12 @@ fn is_series(values: &Vec<u8>) -> bool {
 
     let no = (max + min) / 2;
 
-    (no == max - 1) && (no == min + 1)
+    if max == 14 && min == 2{
+        return no == 8;
+    } else {
+        return (no == max - 1) && (no == min + 1);
+    }
+
 }
 
 fn is_pair(values: &Vec<u8>) -> bool {
@@ -101,9 +106,9 @@ mod tests {
     #[test]
     fn check_straight() {
         let mut mycards: Vec<Card> = vec![];
-        mycards.push(Card::new(2, CardType::Two, CardSymbol::Diamond));
-        mycards.push(Card::new(3, CardType::Three, CardSymbol::Club));
-        mycards.push(Card::new(4, CardType::Four, CardSymbol::Diamond));
+        mycards.push(Card::new(12, CardType::Queen, CardSymbol::Diamond));
+        mycards.push(Card::new(13, CardType::King, CardSymbol::Club));
+        mycards.push(Card::new(14, CardType::Ace, CardSymbol::Diamond));
 
         let player = Player::new(1, mycards);
 
@@ -117,7 +122,7 @@ mod tests {
         let mut mycards: Vec<Card> = vec![];
         mycards.push(Card::new(2, CardType::Two, CardSymbol::Diamond));
         mycards.push(Card::new(3, CardType::Three, CardSymbol::Diamond));
-        mycards.push(Card::new(4, CardType::Four, CardSymbol::Diamond));
+        mycards.push(Card::new(14, CardType::Ace, CardSymbol::Diamond));
 
         let player = Player::new(1, mycards);
 
