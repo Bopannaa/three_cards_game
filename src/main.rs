@@ -15,9 +15,7 @@ fn main() {
         players.push(Player::new(i + 1, mycards[start..end].to_vec()));
     }
 
-
-    for player in &players{
-
+    for player in &players {
         println!("-------------------------------------");
         let player_score = find_score_type(&player);
         println!("Player-{:?} score: {:?}", player.get_id(), &player_score);
@@ -34,9 +32,5 @@ fn main() {
         //     ScoreType::HighCard => println!("Its a HighCard"),
         //     _ => println!("None"),
         // }
-
-
     }
-
-
 }

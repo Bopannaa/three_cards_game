@@ -40,7 +40,6 @@ impl Types<CardType> for CardType {
     }
 }
 
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CardSymbol {
     Spade,
@@ -64,6 +63,9 @@ impl Types<CardSymbol> for CardSymbol {
 pub struct Card(u8, CardType, CardSymbol);
 
 impl Card {
+    pub fn new(value: u8, kind: CardType, symbol: CardSymbol) -> Card {
+        Card(value, kind, symbol)
+    }
     pub fn get_value(&self) -> &u8 {
         &self.0
     }
@@ -93,10 +95,10 @@ fn get_deck_of_cards() -> Vec<Card> {
 
     let mut counter = 14;
     for cardtype in cardtypes.iter() {
-        deck.push(Card(counter, *cardtype, cardyymbols[0]));
-        deck.push(Card(counter, *cardtype, cardyymbols[1]));
-        deck.push(Card(counter, *cardtype, cardyymbols[2]));
-        deck.push(Card(counter, *cardtype, cardyymbols[3]));
+        deck.push(Card::new(counter, *cardtype, cardyymbols[0]));
+        deck.push(Card::new(counter, *cardtype, cardyymbols[1]));
+        deck.push(Card::new(counter, *cardtype, cardyymbols[2]));
+        deck.push(Card::new(counter, *cardtype, cardyymbols[3]));
         counter -= 1;
     }
 

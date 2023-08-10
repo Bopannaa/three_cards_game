@@ -1,7 +1,7 @@
-use crate::player::Player;
 use crate::cards::{CardSymbol, CardType};
+use crate::player::Player;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ScoreType {
     StraightFlush,
     ThreeOfAKind,
@@ -27,10 +27,9 @@ fn is_series(values: &Vec<u8>) -> bool {
         min = *x;
     };
 
+    let no = (max + min) / 2;
 
-    let no = max+min/2;
-
-    no == max - 1 && no == min + 1
+    (no == max - 1) && (no == min + 1)
 }
 
 fn is_pair(values: &Vec<u8>) -> bool {
@@ -40,7 +39,7 @@ fn is_pair(values: &Vec<u8>) -> bool {
 
     if first == second {
         true
-    } else if first == third  {
+    } else if first == third {
         true
     } else if second == third {
         true
@@ -63,5 +62,95 @@ pub fn find_score_type(player: &Player) -> ScoreType {
         return ScoreType::Pair;
     } else {
         return ScoreType::HighCard;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::cards::Card;
+
+    #[test]
+    fn check_pair() {
+        let mut mycards: Vec<Card> = vec![];
+        mycards.push(Card::new(2, CardType::Two, CardSymbol::Diamond));
+        mycards.push(Card::new(2, CardType::Two, CardSymbol::Diamond));
+        mycards.push(Card::new(3, CardType::Three, CardSymbol::Club));
+
+        let player = Player::new(1, mycards);
+
+        let scoretype = find_score_type(&player);
+
+        assert_eq!(scoretype, ScoreType::Pair);
+    }
+
+    #[test]
+    fn check_flush() {
+        let mut mycards: Vec<Card> = vec![];
+        mycards.push(Card::new(2, CardType::Two, CardSymbol::Diamond));
+        mycards.push(Card::new(5, CardType::Five, CardSymbol::Diamond));
+        mycards.push(Card::new(7, CardType::Seven, CardSymbol::Diamond));
+
+        let player = Player::new(1, mycards);
+
+        let scoretype = find_score_type(&player);
+
+        assert_eq!(scoretype, ScoreType::Flush);
+    }
+
+    #[test]
+    fn check_straight() {
+        let mut mycards: Vec<Card> = vec![];
+        mycards.push(Card::new(2, CardType::Two, CardSymbol::Diamond));
+        mycards.push(Card::new(3, CardType::Three, CardSymbol::Club));
+        mycards.push(Card::new(4, CardType::Four, CardSymbol::Diamond));
+
+        let player = Player::new(1, mycards);
+
+        let scoretype = find_score_type(&player);
+
+        assert_eq!(scoretype, ScoreType::Straight);
+    }
+
+    #[test]
+    fn check_straight_flush() {
+        let mut mycards: Vec<Card> = vec![];
+        mycards.push(Card::new(2, CardType::Two, CardSymbol::Diamond));
+        mycards.push(Card::new(3, CardType::Three, CardSymbol::Diamond));
+        mycards.push(Card::new(4, CardType::Four, CardSymbol::Diamond));
+
+        let player = Player::new(1, mycards);
+
+        let scoretype = find_score_type(&player);
+
+        assert_eq!(scoretype, ScoreType::StraightFlush);
+    }
+
+    #[test]
+    fn check_three_of_a_kind() {
+        let mut mycards: Vec<Card> = vec![];
+        mycards.push(Card::new(2, CardType::Two, CardSymbol::Diamond));
+        mycards.push(Card::new(2, CardType::Two, CardSymbol::Club));
+        mycards.push(Card::new(2, CardType::Two, CardSymbol::Spade));
+
+        let player = Player::new(1, mycards);
+
+        let scoretype = find_score_type(&player);
+
+        assert_eq!(scoretype, ScoreType::ThreeOfAKind);
+    }
+
+    #[test]
+    fn highcard() {
+        let mut mycards: Vec<Card> = vec![];
+        mycards.push(Card::new(2, CardType::Two, CardSymbol::Diamond));
+        mycards.push(Card::new(5, CardType::Five, CardSymbol::Club));
+        mycards.push(Card::new(7, CardType::Seven, CardSymbol::Spade));
+
+        let player = Player::new(1, mycards);
+
+        let scoretype = find_score_type(&player);
+
+        assert_eq!(scoretype, ScoreType::HighCard);
     }
 }
